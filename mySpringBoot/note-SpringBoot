@@ -1,0 +1,25 @@
+1、创建Springboot基础项目，Spring Boot的基础结构共三个文件：
+src/main/java下的程序入口：MySpringBootApplication
+src/main/resources下的配置文件：application.properties
+src/test/下的测试入口：MySpringBootApplicationTests
+
+MySpringBootApplication，MySpringBootApplicationTests类都可以直接运行来启动当前创建的项目。
+
+2、pom.xml文件
+项目元数据：创建时候输入的Project Metadata部分，就是Maven项目的基本元素，包括：groupId、artifactId、version、name、description等
+(groupId 是项目组织唯一的标识符，实际对应JAVA的包的结构，是main目录里java的目录结构； artifactId是项目的唯一的标识符，实际对应项目的名称，与groupId共同确定一个项目在maven repo中的位置)
+parent：继承spring-boot-starter-parent的依赖管理，控制版本与打包等内容
+dependencies：项目具体依赖，这里包含了spring-boot-starter-web用于实现HTTP接口（该依赖中包含了Spring MVC）；spring-boot-starter-test用于编写单元测试的依赖包。
+build：构建配置部分。默认使用了spring-boot-maven-plugin，配合spring-boot-starter-parent就可以把Spring Boot应用打包成JAR来直接运行（默认为jar包，可通过配置<packaging></packaging>打成jar、war、ear、pom包 ）。
+
+
+3、默认情况下，Spring Boot的应用主类在会自动扫描root package以及所有子包下的所有类来进行初始化。
+若想加载加载非root package的类，可以在MyApringBootApplication里用@ComponentScan注解指定具体的加载包。
+
+
+4、在Spring Boot中多环境配置文件名需要满足application-{profile}.properties的格式，其中{profile}对应你的环境标识，比如：
+  application-dev.properties：开发环境
+  application-test.properties：测试环境
+  application-prod.properties：生产环境
+  需要在application.properties文件中通过spring.profiles.active属性来设置哪个具体的配置文件会被加载，其值对应配置文件中的{profile}值。
+  如：spring.profiles.active=test就会加载application-test.properties配置文件内容。
